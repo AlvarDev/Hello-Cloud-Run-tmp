@@ -1,16 +1,26 @@
 steps:
-
   # Installing dependencies
   - name: node
     entrypoint: npm
     args: ['install']
 
-    # Build app
-    # - name: 'gcr.io/cloud-builders/docker'
-    # args: [ 'build', '.', '-t', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs:dota2', '-t', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs', '-f', 'Dockerfile' ]
+  # Build app
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs', '.']
 
   # Run unit tests
-  #- name: southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs
-  - name: node
+  - name: southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs
     entrypoint: npm
-    args: ["test"]
+    args: ['test']
+
+  # Storage the image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs']
+
+  # Deploy
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['run', 'deploy', 'hello-cloud-run',
+          '--image', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs',
+          '--region', 'southamerica-east1',
+          '--platform', 'managed',
+          '--allow-unauthenticated']
