@@ -1,0 +1,16 @@
+steps:
+
+  # Installing dependencies
+  - name: node
+    entrypoint: npm
+    args: ['install']
+
+    # Build app
+    # - name: 'gcr.io/cloud-builders/docker'
+    # args: [ 'build', '.', '-t', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs:dota2', '-t', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs', '-f', 'Dockerfile' ]
+
+  # Run unit tests
+  #- name: southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs
+  - name: node
+    entrypoint: npm
+    args: ["test"]
