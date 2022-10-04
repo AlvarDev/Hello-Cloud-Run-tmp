@@ -6,21 +6,21 @@ steps:
 
   # Build app
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs', '.']
+    args: ['build', '-t', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs:COMMIT_SHA', '.']
 
   # Run unit tests
-  - name: southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs
+  - name: southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs:COMMIT_SHA
     entrypoint: npm
     args: ['test']
 
   # Storage the image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs']
+    args: ['push', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs:COMMIT_SHA']
 
   # Deploy
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['run', 'deploy', 'hello-cloud-run',
-          '--image', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs',
+    '--image', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs:COMMIT_SHA',
           '--region', 'southamerica-east1',
           '--platform', 'managed',
           '--allow-unauthenticated']
