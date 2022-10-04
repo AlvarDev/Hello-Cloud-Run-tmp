@@ -2,7 +2,7 @@ steps:
   # Installing dependencies
   - name: node
     entrypoint: npm
-    args: ['install']L
+    args: ['install']
 
   # Build app
   - name: 'gcr.io/cloud-builders/docker'
