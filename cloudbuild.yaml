@@ -23,4 +23,9 @@ steps:
     '--image', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs/cloudrun:COMMIT_SHA',
           '--region', 'southamerica-east1',
           '--platform', 'managed',
+          '--no-traffic',
           '--allow-unauthenticated']
+
+  # Canary release
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['run', 'services', 'update-traffic', 'hello-cloud-run', '--to-revisions=LATEST=50']
