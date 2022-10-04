@@ -20,7 +20,7 @@ steps:
   # Deploy
   - name: 'gcr.io/cloud-builders/gcloud'
     args: ['run', 'deploy', 'hello-cloud-run',
-    '--image', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs/cloudrun:COMMIT_SHA',
+          '--image', 'southamerica-east1-docker.pkg.dev/$PROJECT_ID/hello-world-nodejs/cloudrun:COMMIT_SHA',
           '--region', 'southamerica-east1',
           '--platform', 'managed',
           '--no-traffic',
@@ -28,4 +28,6 @@ steps:
 
   # Canary release
   - name: 'gcr.io/cloud-builders/gcloud'
-    args: ['run', 'services', 'update-traffic', 'hello-cloud-run', '--to-revisions=LATEST=50']
+    args: ['run', 'services', 'update-traffic', 'hello-cloud-run', 
+          '--region', 'southamerica-east1',
+          '--to-revisions=LATEST=50']
